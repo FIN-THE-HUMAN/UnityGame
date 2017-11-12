@@ -21,6 +21,7 @@ public class MapController : MonoBehaviour {
 
 	public GameObject CellPrefab;
     public GameObject WallPrefab;
+    public GameObject WinFieldPrefab;
 
 	private GameObject[][] Map;
 
@@ -53,6 +54,7 @@ public class MapController : MonoBehaviour {
         {
             case 0: return CellPrefab;
             case 1: return WallPrefab;
+            case 2: return WinFieldPrefab;
         }
         return CellPrefab;
     }

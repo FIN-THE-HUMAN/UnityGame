@@ -4,18 +4,20 @@ using UnityEngine;
 
 public class EnemyAtack : MonoBehaviour {
 
-    public GameObject Player;
-    private PlayerLife life;
+    public string Aim;
 
-	void Start () {
-        Player = GameObject.FindGameObjectWithTag("player");
-        life = Player.GetComponent<PlayerLife>();
+    private PlayerLife life;
+    private GameObject player;
+
+    void Start () {
+        player = GameObject.FindGameObjectWithTag(Aim);
+        life = player.GetComponent<PlayerLife>();
     }
 	
 	void Update () {
-        if(Player != null)
+        if(player != null)
         {
-            if (Comparer.IsVectorEqual(transform.position, Player.transform.position))
+            if (Comparer.IsVectorEqual(transform.position, player.transform.position))
             {
                 if (life != null) life.ReceiveDamage();
             }

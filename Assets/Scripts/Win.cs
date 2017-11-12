@@ -4,20 +4,23 @@ using UnityEngine;
 
 public class Win : MonoBehaviour {
 
-    public GameObject Player;
+    public string Aim;
+
+    private GameObject player;
 
     void Start()
     {
-        Player = GameObject.FindGameObjectWithTag("player");
+        player = GameObject.FindGameObjectWithTag(Aim);
     }
 
     void Update()
     {
-        if (Player != null)
+        if (player != null)
         {
-            if (Comparer.IsVectorEqual(transform.position, Player.transform.position))
+            if (Comparer.IsVectorEqual(transform.position, player.transform.position))
             {
                 Debug.Log("----- Win -----");
+                Time.timeScale = 0;
             }
         }
     }
