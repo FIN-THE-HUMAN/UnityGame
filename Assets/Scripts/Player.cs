@@ -5,7 +5,6 @@ using System.Collections.Generic;
 public class Player : MonoBehaviour
 {
     public float speed = 3.0f;
-    private float accuracy = 0.1f;
     private WayChangerPlayer wayChanger;
     Vector3 direction;
 
@@ -37,7 +36,7 @@ public class Player : MonoBehaviour
     void Move()
     {
         if (AnyButtonTap()) wayChanger.TryChangeWay();
-        if(IsWayBarricatedByWall(direction))
+        if(MovingUtils.IsWayBarricatedByWall(transform.position, direction))
         {
             if (wayChanger.IsWayChanged) direction = GetVectorDirection(direction); 
             else direction = Vector3.zero;
@@ -51,7 +50,7 @@ public class Player : MonoBehaviour
     {
         if (wayChanger.IsWayChanged)
         {
-            if (Comparer.IsCoordsInteger(transform.position.x, transform.position.y, accuracy))
+            if (Comparer.IsCoordsInteger(transform.position.x, transform.position.y, Constants.Accuracy))
             {
                 SetCoordinates(Mathf.Round(transform.position.x), Mathf.Round(transform.position.y));
                 wayChanger.MakeOldAndNewEqual();
@@ -62,10 +61,4 @@ public class Player : MonoBehaviour
         else return _direction;
     }
 
-    private bool IsWayBarricatedByWall(Vector3 way)
-    {
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, way, 0.5f);
-        if(hit) return true;
-        return false;
-    }
 }

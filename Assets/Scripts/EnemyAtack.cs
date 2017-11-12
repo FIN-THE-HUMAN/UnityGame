@@ -5,7 +5,7 @@ using UnityEngine;
 public class EnemyAtack : MonoBehaviour {
 
     public GameObject Player;
-    PlayerLife life;
+    private PlayerLife life;
 
 	void Start () {
         Player = GameObject.FindGameObjectWithTag("player");

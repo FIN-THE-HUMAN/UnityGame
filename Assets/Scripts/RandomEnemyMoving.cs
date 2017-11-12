@@ -6,14 +6,13 @@ public class RandomEnemyMoving : MonoBehaviour {
 
     public float speed = 3.0f;
     public int maxLineDistance = 10;
-    private float accuracy = 0.1f;
     private WayChangerRandom wayChanger;
     Vector3 direction;
 
     private bool IsFinishReached(Vector3 finish)
     {
-        if(Comparer.IsEqual(transform.position.x, finish.x, accuracy) &&
-            Comparer.IsEqual(transform.position.y, finish.y, accuracy))
+        if(Comparer.IsEqual(transform.position.x, finish.x, Constants.Accuracy) &&
+            Comparer.IsEqual(transform.position.y, finish.y, Constants.Accuracy))
             return true;
         return false;
     }
@@ -36,7 +35,7 @@ public class RandomEnemyMoving : MonoBehaviour {
 
     void Move()
     {
-        if (IsFinishReached(wayChanger.Finish) || IsWayBarricatedByWall(direction))
+        if (IsFinishReached(wayChanger.Finish) || MovingUtils.IsWayBarricatedByWall(transform.position, direction))
         {
             wayChanger.TryChangeWay(FreeWays(), transform.position);
             if (wayChanger.IsWayChanged)
@@ -51,7 +50,7 @@ public class RandomEnemyMoving : MonoBehaviour {
     {
         if (wayChanger.IsWayChanged)
         {
-            if (Comparer.IsCoordsInteger(transform.position.x, transform.position.y, accuracy))
+            if (Comparer.IsCoordsInteger(transform.position.x, transform.position.y, Constants.Accuracy))
             {
                 SetCoordinates(Mathf.Round(transform.position.x), Mathf.Round(transform.position.y));
                 wayChanger.MakeOldAndNewEqual();
@@ -62,21 +61,13 @@ public class RandomEnemyMoving : MonoBehaviour {
         else return _direction;  
     }
 
-    private bool IsWayBarricatedByWall(Vector3 way)
-    {
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, way, 0.5f);
-        if (hit)
-            return true;
-        return false;
-    }
-
     private List<Direction> FreeWays()
     {
         List<Direction> result = new List<Direction>();
-        if (!IsWayBarricatedByWall(transform.up))               result.Add(Direction.up);
-        if (!IsWayBarricatedByWall(transform.up * -1.0f))       result.Add(Direction.down);
-        if (!IsWayBarricatedByWall(transform.right))            result.Add(Direction.right);
-        if (!IsWayBarricatedByWall(transform.right * -1.0f))    result.Add(Direction.left);
+        if (!MovingUtils.IsWayBarricatedByWall(transform.position, transform.up))               result.Add(Direction.up);
+        if (!MovingUtils.IsWayBarricatedByWall(transform.position, transform.up * -1.0f))       result.Add(Direction.down);
+        if (!MovingUtils.IsWayBarricatedByWall(transform.position, transform.right))            result.Add(Direction.right);
+        if (!MovingUtils.IsWayBarricatedByWall(transform.position, transform.right * -1.0f))    result.Add(Direction.left);
         return result;
     }
 }

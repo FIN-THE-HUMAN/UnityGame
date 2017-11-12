@@ -4,16 +4,14 @@ using UnityEngine;
 
 public static class Comparer {
 
-    public static bool IsEqual(float a, float b, float Accuracy)
+    public static bool IsEqual(float a, float b, float accuracy)
     {
-        if (Mathf.Abs(a - b) < Accuracy)
-            return true;
-        return false;
+        return Mathf.Abs(a - b) < accuracy;
     }
 
-    public static bool IsInteger(float c, float Accuracy)
+    public static bool IsInteger(float c, float accuracy)
     {
-        if (Mathf.Abs(Mathf.Round(c) - c) < Accuracy)
+        if (Mathf.Abs(Mathf.Round(c) - c) < accuracy)
             return true;
         return false;
     }
@@ -21,6 +19,13 @@ public static class Comparer {
     public static bool IsCoordsInteger(float x, float y, float accuracy)
     {
         if (IsInteger(x, accuracy) && IsInteger(y, accuracy))
+            return true;
+        return false;
+    }
+
+    public static bool IsCoordsInteger(Vector3 v, float accuracy)
+    {
+        if (IsInteger(v.x, accuracy) && IsInteger(v.y, accuracy))
             return true;
         return false;
     }
